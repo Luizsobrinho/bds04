@@ -1,6 +1,7 @@
 package com.devsuperior.bds04.services;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,5 +33,17 @@ public class EventService {
 			throw new ResourceNotFoundException("Id not found: " + id);
 		}
 		
+	}
+	
+	@Transactional
+	public EventDTO insert(EventDTO eventDTO) {
+		Event event = new Event();
+		event.setName(eventDTO.getName());
+		event.setUrl(eventDTO.getUrl());
+		event.setDate(eventDTO.getDate());
+		event.setCity(new City(eventDTO.getCityId(), null));
+		
+		repository.save(event);
+		return new EventDTO(event);
 	}
 }
