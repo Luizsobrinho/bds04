@@ -3,17 +3,27 @@ package com.devsuperior.bds04.dto;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import com.devsuperior.bds04.entities.Event;
 
 public class EventDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private Long id;
+
+	@NotBlank(message = "Nome não pode ser vazio")
 	private String name;
+
+	@FutureOrPresent(message = "Data não pode ser passada")
 	private LocalDate date;
 	private String url;
-	private Long cityId;
 	
+	@NotNull(message = "Cidade não pode ser nula")
+	private Long cityId;
+
 	public EventDTO() {
 	}
 
@@ -24,7 +34,7 @@ public class EventDTO implements Serializable {
 		this.url = url;
 		this.cityId = cityId;
 	}
-	
+
 	public EventDTO(Event entity) {
 		id = entity.getId();
 		name = entity.getName();
