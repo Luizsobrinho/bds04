@@ -5,7 +5,10 @@ import java.net.URI;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -40,5 +43,14 @@ public class EventController {
 		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/{id}").buildAndExpand(eventDTO.getId())
 				.toUri();
 		return ResponseEntity.created(uri).body(eventDTO);
+	}
+	
+	
+	@GetMapping
+	public ResponseEntity<Page<EventDTO>> findAll(Pageable pageable) {
+
+	
+		Page<EventDTO> products = service.findAllPaged(pageable);
+		return ResponseEntity.ok().body(products);
 	}
 }
